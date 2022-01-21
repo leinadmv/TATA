@@ -1,0 +1,15 @@
+<div class="parent">
+
+  <div class="div1">
+    <app-formulario [User]="User"></app-formulario>
+  </div>
+
+  <div class="div2">
+    <app-lista (idUserSend)="idUser = $event" (UserSend)="User = $event"></app-lista>
+  </div>
+
+  <div class="div3">
+    <app-detalle [idUser]="idUser"></app-detalle>
+  </div>
+
+</div>

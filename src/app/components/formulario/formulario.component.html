@@ -1,0 +1,21 @@
+<form class="example-form parent" [formGroup]="userForm" (ngSubmit)="saveUser(userForm)">
+
+  <mat-form-field class="example-full-width div1" appearance="fill" style="padding: 1%;">
+    <mat-label>Nombre</mat-label>
+    <input matInput formControlName="name" required >
+        <mat-error *ngIf="error.name.errors"><span *ngIf="error.name.errors.required">¡Advertencia! Este campo es requerido</span></mat-error>
+				<mat-error *ngIf="error.name.errors"><span *ngIf="error.name.errors.minlength">¡Aún falta! Recibimos mínimo 3 caracteres</span></mat-error>
+				<mat-error *ngIf="error.name.errors"><span *ngIf="error.name.errors.maxlength">¡Cuidado! Solo puedes tener un máximo de 20 caracteres</span></mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width div2" appearance="fill" style="padding: 1%;">
+    <mat-label>Cargo</mat-label>
+    <input matInput formControlName="job" required>
+    <mat-error *ngIf="error.job.errors"><span *ngIf="error.job.errors.required">¡Advertencia! Este campo es requerido</span></mat-error>
+				<mat-error *ngIf="error.job.errors"><span *ngIf="error.job.errors.minlength">¡Aún falta! Recibimos mínimo 3 caracteres</span></mat-error>
+				<mat-error *ngIf="error.job.errors"><span *ngIf="error.job.errors.maxlength">¡Cuidado! Solo puedes tener un máximo de 20 caracteres</span></mat-error>
+  </mat-form-field>
+
+  <button class="div3" mat-raised-button type="submit" [disabled]="userForm.invalid">Guardar</button>
+
+</form>

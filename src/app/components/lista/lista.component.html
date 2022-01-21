@@ -1,0 +1,37 @@
+<table mat-table [dataSource]="dataSource" class="table">
+
+  <ng-container matColumnDef="acciones">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Acciones</th>
+    <td mat-cell *matCellDef="let row">
+
+          <mat-icon class="icon" (click)="detalle(row.id)">details</mat-icon>
+          <mat-icon class="icon" (click)="update(row)">update</mat-icon>
+          <mat-icon class="icon" (click)="delete(row.id)">delete</mat-icon>
+
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="nombre">
+      <th mat-header-cell *matHeaderCellDef> Nombre y apellido </th>
+      <td mat-cell class="text" *matCellDef="let row"> {{row.first_name}} {{row.last_name}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="correo">
+      <th mat-header-cell *matHeaderCellDef> Correo </th>
+      <td mat-cell class="text" *matCellDef="let row"> {{row.email}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="avatar">
+    <th mat-header-cell *matHeaderCellDef> Avatar </th>
+    <td mat-cell *matCellDef="let row"> <img class="prueba" src="{{row.avatar}}"> </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+</table>
+<mat-paginator [length]="length"
+               [pageSize]="pageSize"
+               (page)="pageEvent($event)"
+               [pageSizeOptions]="pageSizeOptions" #paginator>
+</mat-paginator>

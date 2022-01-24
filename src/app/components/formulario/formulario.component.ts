@@ -2,7 +2,6 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ServicesService } from 'src/app/servicios/services.service';
 import Swal from 'sweetalert2';
-import { ListaComponent } from '../lista/lista.component';
 
 @Component({
   selector: 'app-formulario',
@@ -26,7 +25,7 @@ export class FormularioComponent implements OnInit {
 
   userForm: FormGroup;
 
-  constructor(private form: FormBuilder, private service: ServicesService, private lista: ListaComponent) { }
+  constructor(private form: FormBuilder, private service: ServicesService) { }
 
   ngOnInit(): void {
     this.formControl();
@@ -59,14 +58,12 @@ export class FormularioComponent implements OnInit {
     if(this.isEdit){
       this.service.editUser(this.idUser,user).subscribe(resp =>{
         Swal.fire('Se ha editado el usuario '+resp.name+' con cargo '+resp.job)
-        this.lista.getUsers();
         this.userForm.reset();
         this.isEdit = false;
       });
     } else {
       this.service.setUser(user).subscribe(resp =>{
         Swal.fire('Se ha guardado el usuario '+resp.name+' con cargo '+resp.job)
-        this.lista.getUsers();
         this.userForm.reset();
       });
     }

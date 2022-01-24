@@ -1,6 +1,7 @@
-import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { Subscription } from 'rxjs';
 import { ServicesService } from 'src/app/servicios/services.service';
 import Swal from 'sweetalert2';
 
@@ -9,13 +10,15 @@ import Swal from 'sweetalert2';
   templateUrl: './lista.component.html',
   styleUrls: ['./lista.component.css']
 })
-export class ListaComponent implements OnInit {
+export class ListaComponent implements OnInit, OnDestroy {
 
   @Output()
   idUserSend: EventEmitter<number> = new EventEmitter();
 
   @Output()
   UserSend: EventEmitter<any> = new EventEmitter();
+
+  subscription:Subscription;
 
   length;
   pageSize: number = 4;
@@ -29,6 +32,13 @@ export class ListaComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUsers();
+    this.subscription = this.service.refresh$.subscribe(()=>{
+      this.getUsers();
+    });
+  }
+
+  ngOnDestroy(){
+    this.subscription.unsubscribe();
   }
 
   /**

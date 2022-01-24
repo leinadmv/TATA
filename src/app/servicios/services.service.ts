@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { catchError, Observable } from 'rxjs';
+import { catchError, Observable, Subject, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +8,13 @@ import { catchError, Observable } from 'rxjs';
 
 export class ServicesService {
 
+  private _refresh$ = new Subject<void>();
+
   constructor(private http: HttpClient) { }
+
+  get refresh$(){
+    return this._refresh$;
+  }
 
   handleError(error: HttpErrorResponse): any{
   }
@@ -49,7 +55,10 @@ export class ServicesService {
   deleteUser(id: number): Observable<any>{
     return this.http.delete<any>(`https://reqres.in/api/users/${id}`)
     .pipe(
-      catchError(this.handleError)
+      catchError(this.handleError),
+      tap(()=>{
+        this._refresh$.next();
+      })
       );
   }
 
@@ -62,7 +71,10 @@ export class ServicesService {
   setUser(user: any): Observable<any>{
     return this.http.post<any>(`https://reqres.in/api/users`, user)
     .pipe(
-      catchError(this.handleError)
+      catchError(this.handleError),
+      tap(()=>{
+        this._refresh$.next();
+      })
       );
   }
 
@@ -76,7 +88,10 @@ export class ServicesService {
   editUser(id:number, user: any): Observable<any>{
     return this.http.patch<any>(`https://reqres.in/api/users/${id}`, user)
     .pipe(
-      catchError(this.handleError)
+      catchError(this.handleError),
+      tap(()=>{
+        this._refresh$.next();
+      })
       );
   }
 
